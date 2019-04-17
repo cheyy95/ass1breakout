@@ -1,39 +1,28 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class MyGdxGame extends Game implements ApplicationListener {
-	// The class with the menu
-	public static MenuScreen menuScreen;
-	// The class with the game
-	public static GameScreen gameScreen;
+public class MyGdxGame extends Game {
+	public static final float WORLD_WIDTH = 640;
+	public static final float WORLD_HEIGHT = 480;
+
+	SpriteBatch batch;
+	BitmapFont font;
+	Music music;
+
 	@Override
 	public void create() {
-		Gdx.app.log("MyGdxGame: "," create");
-		gameScreen = new GameScreen(this);
-		menuScreen = new MenuScreen(this);
-		Gdx.app.log("MyGdxGame: ","about to change screen to menuScreen");
-// Change screens to the menu
-		setScreen(menuScreen);
-		Gdx.app.log("MyGdxGame: ","changed screen to menuScreen");
-	}
-	@Override
-	public void dispose() {super.dispose();}
-	@Override
-// this method calls the super class render
-// which in turn calls the render of the actual screen being used
-	public void render() {super.render();}
-	@Override
-	public void resize(int width, int height) { super.resize(width, height);}
-	@Override
-	public void pause() {
-		super.pause();
-	}
-	@Override
-	public void resume() {
-		super.resume();
+		music = Gdx.audio.newMusic(Gdx.files.internal("bgm.mp3"));
+		music.setLooping(true);
+		music.setVolume(0.7f);
+		music.play();
+
+		batch = new SpriteBatch();
+		font = new BitmapFont();
+		setScreen(new MenuScreen(this));
 	}
 }
-
