@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class GameScreen implements Screen {
@@ -27,9 +28,14 @@ public class GameScreen implements Screen {
     Texture texture;
     Stage stage;
 
+    ObjectSprite paddle;
+    ObjectSprite ball;
+    Array<ObjectSprite> bricks;
 
 
-
+    int screenWidth;
+    int screenHeight;
+    static final float WORLD_SCALE = 100f;
     private int score = 0;
     private int add;
     private int lives = 0;
@@ -44,6 +50,8 @@ public class GameScreen implements Screen {
         this.score = score;
         this.add = add;
         this.lives = lives;
+        screenWidth = Gdx.graphics.getWidth();
+        screenHeight = Gdx.graphics.getHeight();
 
         stage = new Stage(new StretchViewport(MyGdxGame.WORLD_WIDTH, MyGdxGame.WORLD_HEIGHT));
         padTex = new Texture("paddle.png");
@@ -51,6 +59,8 @@ public class GameScreen implements Screen {
         brickTex = new Texture("blue.png");
         hitSound = Gdx.audio.newSound(Gdx.files.internal("hit.mp3"));
         texture = new Texture(Gdx.files.internal("背景图.png"));
+
+        bricks = new Array<ObjectSprite>();
     }
     public void create() {
 
@@ -64,7 +74,7 @@ public class GameScreen implements Screen {
             dispose();
             return;
         }
-        
+
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
             game.setScreen(new PausedScreen(game,this));
         }
@@ -88,8 +98,40 @@ public class GameScreen implements Screen {
     }
     @Override
     public void hide() {
+    }
+
+    private void createBall() {
+        float x = (screenWidth / 2)-5;
+        float y = 45;
+
+        ObjectSprite.Defs defs = ObjectSprite.Defs.fromScreenCoordinates(
+                ballTex, x, y, WORLD_SCALE);}
+
+    private void createPaddle() {
+        float x = (screenWidth / 2) - (padTex.getWidth() / 2);
+        float y = 32;
+        ObjectSprite.Defs defs = ObjectSprite.Defs.fromScreenCoordinates(
+                padTex, x, y, WORLD_SCALE);}
+
+    private void createBricks() {
+
+        int brickWidth = brickTex.getWidth();
+        int brickHeight = brickTex.getHeight();
+        int x = 20;
+        int y = 4;
+
+        for (int i = 0; i < x; i++) {
+            for (int j = 0; j < y; j++) {
+                int col = i * brickWidth;
+                int row = screenHeight - brickHeight - (j * brickHeight);
 
 
+                ObjectSprite.Defs defs = ObjectSprite.Defs.fromScreenCoordinates(
+                        brickTex, col, row, WORLD_SCALE);
+            }
 
+        }
+
+        
     }
 }
