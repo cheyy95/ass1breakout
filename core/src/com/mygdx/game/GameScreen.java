@@ -59,8 +59,10 @@ public class GameScreen implements Screen {
     private int score = 0;
     private int add;
     private int lives = 0;
-
+    
+    private boolean mouse = false;
     private boolean placeball = false;
+    private boolean ballStarted = false;
 
     GameScreen(MyGdxGame game) {
         this(game, 0, 1, 0);
@@ -133,16 +135,46 @@ public class GameScreen implements Screen {
 
     }
 
-    public void render(float f) {
+    public void render(float delta) {
 
-        if (lives-- == 0) {
-            game.setScreen(new OverScreen(game));
-            dispose();
-            return;
+        if (placeball) {
+
+            ball.setScreenPosition(
+                    (Gdx.graphics.getWidth() / 2) - (ball.sprite.getWidth() / 2),
+                    100,
+                    0);
+            ball.body.setAngularVelocity(0);
+            ball.body.setLinearVelocity(0, 0);
+            ball.body.setAwake(false);
+            placeball = false;
+            ballStarted = false;
+
+            //trigger game over
+            if (lives-- == 0) {
+                game.setScreen(new OverScreen(game));
+                dispose();
+                return;
+            }
+
+            if(remove.size == 0){
+                game.setScreen(new SuccessState(game));
+                dispose();
+                return;
+            }
+        }
+// control
+        if (Gdx.input.isTouched()) {
+            mouse = true;
+        }if (Gdx.input.getDeltaX() != 0) {
+            mouse = true;
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
             game.setScreen(new PausedScreen(game, this));
+        }if (mouse) {
+            float mousex = Gdx.input.getX() / WORLD_SCALE;
+            float padx = paddle.body.getPosition().x;
+            paddle.body.applyForceToCenter(mousex - padx, 0f, true);
         }
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
