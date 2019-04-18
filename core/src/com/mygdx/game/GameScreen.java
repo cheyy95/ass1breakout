@@ -59,7 +59,7 @@ public class GameScreen implements Screen {
     private int score = 0;
     private int add;
     private int lives = 0;
-    
+
     private boolean mouse = false;
     private boolean placeball = false;
     private boolean ballStarted = false;
@@ -177,8 +177,20 @@ public class GameScreen implements Screen {
             paddle.body.applyForceToCenter(mousex - padx, 0f, true);
         }
 
+
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        game.batch.begin();
+        game.batch.draw(texture,0,0);
+        paddle.draw(game.batch);
+        ball.draw(game.batch);
+        for (ObjectSprite brick : bricks) {
+            brick.draw(game.batch);
+        }
+        drawScore();
+        game.batch.end();
+        stage.act();
+        stage.draw();
 
     }
 
@@ -306,5 +318,10 @@ public class GameScreen implements Screen {
             hall.add(body);
             shape.dispose();
         }
+    }
+
+    private void drawScore() {
+        game.font.setColor(1, 0, 0, 1);
+        game.font.draw(game.batch, String.format("Score: %d", score), 0, 20);
     }
 }
