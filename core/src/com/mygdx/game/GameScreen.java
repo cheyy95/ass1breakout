@@ -28,7 +28,7 @@ public class GameScreen implements Screen {
 
     public GameScreen(MyGdxGame game){
         this.game = game;
-        
+
         stage = new Stage(new StretchViewport(MyGdxGame.WORLD_WIDTH, MyGdxGame.WORLD_HEIGHT));
         padTex = new Texture("paddle.png");
         ballTex = new Texture("ball.png");
