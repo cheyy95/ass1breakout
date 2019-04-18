@@ -5,23 +5,27 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class PausedScreen implements Screen {
 
     MyGdxGame game;
-
+    Screen returngame;
     private SpriteBatch batch;
     private Skin skin;
     private Stage stage;
     private Texture texture;
     private Label label;
 
-    public PausedScreen(MyGdxGame game){
+    public PausedScreen(MyGdxGame game, Screen returning){
         this.game = game;
+        this.returngame = returning;
     }
     public void create() {
 
@@ -38,6 +42,34 @@ public class PausedScreen implements Screen {
         float labelY = MyGdxGame.WORLD_HEIGHT / 3 * 2 + label.getHeight() / 2;
         label.setPosition(labelX, labelY);
         stage.addActor(label);
+
+        TextButton retryButton = new TextButton("CONTINUE", skin);
+        retryButton.setWidth(150f);
+        retryButton.setHeight(75f);
+        retryButton.setPosition(Gdx.graphics.getWidth() /2 - 150f, Gdx.graphics.getHeight()/2 - 70f);
+        retryButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                game.setScreen(returngame);
+            }
+        });
+        stage.addActor(retryButton);
+
+        TextButton quitButton = new TextButton("QUIT", skin);
+        quitButton.setWidth(150f);
+        quitButton.setHeight(75f);
+        quitButton.setPosition(Gdx.graphics.getWidth() /2 - 150f, Gdx.graphics.getHeight()/2 - 160f);
+        quitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                Gdx.app.exit();
+            }
+        });
+        stage.addActor(quitButton);
+
+        Gdx.input.setInputProcessor(stage);
 
     }
 

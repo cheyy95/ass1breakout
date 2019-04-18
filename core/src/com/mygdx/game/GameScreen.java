@@ -44,7 +44,7 @@ public class GameScreen implements Screen {
     }
     public void render(float f) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
-            game.setScreen(new PausedScreen(game));
+            game.setScreen(new PausedScreen(game,this));
         }
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
