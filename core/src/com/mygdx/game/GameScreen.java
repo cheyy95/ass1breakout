@@ -194,6 +194,17 @@ public class GameScreen implements Screen {
         }// PHYSICS
 
         world.step(delta, 6, 2);
+        // remove bri and add hit sound
+        while (remove.size != 0) {
+            ObjectSprite dead = remove.first();
+            remove.removeIndex(0);
+            world.destroyBody(dead.body);
+            if (bricks.contains(dead, true)) {
+                bricks.removeValue(dead, true);
+                score += add;
+            }
+            hit();
+        }
 
         //ensure the ball has a minimum velocity
         if (ballStarted) {
@@ -245,7 +256,9 @@ public class GameScreen implements Screen {
         stage.draw();
 
     }
-
+    public void hit() {
+        hitSound.play();
+    }
     @Override
     public void dispose() {
     }
