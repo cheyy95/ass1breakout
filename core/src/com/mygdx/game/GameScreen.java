@@ -4,52 +4,44 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 public class GameScreen implements Screen {
     MyGdxGame game; // Note it’s "MyGdxGame" not "Game"
     // constructor to keep a reference to the main Game class
 
-    private OrthographicCamera camera;
-    private SpriteBatch batch;
-    private ParticleEffect particleEffect;
+    Texture padTex;
+    Texture ballTex;
+    Texture brickTex;
+    Sound hitSound;
+    Texture texture;
+    Stage stage;
 
     public GameScreen(MyGdxGame game){
         this.game = game;
+        
+        stage = new Stage(new StretchViewport(MyGdxGame.WORLD_WIDTH, MyGdxGame.WORLD_HEIGHT));
+        padTex = new Texture("paddle.png");
+        ballTex = new Texture("ball.png");
+        brickTex = new Texture("blue.png");
+        hitSound = Gdx.audio.newSound(Gdx.files.internal("hit.mp3"));
+        texture = new Texture(Gdx.files.internal("背景图.png"));
     }
     public void create() {
 
-        Gdx.app.log("GameScreen: ","gameScreen create");
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
-        camera = new OrthographicCamera(w, h);
-        batch = new SpriteBatch();
-        batch.setProjectionMatrix(camera.combined);
-        particleEffect = new ParticleEffect();
-        particleEffect.load(Gdx.files.internal("particles/star.p"),
-                Gdx.files.internal("particles/"));
+
 
     }
     public void render(float f) {
-
-
-        Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        if(Gdx.input.isTouched()){
-            if (particleEffect.isComplete())
-                particleEffect.reset();
-            Vector3 world = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-            camera.unproject(world);
-            particleEffect.setPosition(world.x, world.y);
-        }
-        particleEffect.update(Gdx.graphics.getDeltaTime());
-        particleEffect.draw(batch,Gdx.graphics.getDeltaTime());
-        batch.end();
 
     }
     @Override
