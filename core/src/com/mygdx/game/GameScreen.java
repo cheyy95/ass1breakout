@@ -182,12 +182,12 @@ public class GameScreen implements Screen {
         if (!ballStarted && Gdx.input.justTouched()){
             ball.body.applyForceToCenter(
 
-                    (float) (0.5),
-                    (float) (0.5),
+                    (float) (((Math.random() * 2) - 9)),
+                    (float) (((Math.random() * 2) - 9)),
                     true);
             ball.body.applyAngularImpulse(
 
-                    (float) (0.5),
+                    (float) (((Math.random() * 2) - 900)),
 
                     true);
             ballStarted = true;
@@ -228,7 +228,7 @@ public class GameScreen implements Screen {
             }
             if (ball.body.getAngularVelocity() == 0.0f) {
                 ball.body.applyAngularImpulse(
-                        (float) (0.5),
+                        (float) (((Math.random() * 2) - 1)/900),
 
                         true);
             }
@@ -382,7 +382,27 @@ public class GameScreen implements Screen {
 
             hall.add(body);
             shape.dispose();
+
+
         }
+
+        //create bottomfail
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(0f, 0f);
+
+        EdgeShape shape = new EdgeShape();
+        shape.set(0, 1 / WORLD_SCALE, w, 1 / WORLD_SCALE);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.filter.categoryBits = bottomfail;
+
+        Body body = world.createBody(bodyDef);
+        ballhall = body.createFixture(fixtureDef);
+
+        hall.add(body);
+        shape.dispose();
     }
 
     private void drawScore() {
