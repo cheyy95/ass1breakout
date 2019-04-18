@@ -27,8 +27,23 @@ public class GameScreen implements Screen {
     Texture texture;
     Stage stage;
 
-    public GameScreen(MyGdxGame game){
+
+
+
+    private int score = 0;
+    private int add;
+    private int lives = 0;
+
+    GameScreen(MyGdxGame game) {
+        this(game, 0, 1, 0);
+    }
+
+    GameScreen(MyGdxGame game, int score, int add, int lives){
         this.game = game;
+        this.game = game;
+        this.score = score;
+        this.add = add;
+        this.lives = lives;
 
         stage = new Stage(new StretchViewport(MyGdxGame.WORLD_WIDTH, MyGdxGame.WORLD_HEIGHT));
         padTex = new Texture("paddle.png");
@@ -43,6 +58,13 @@ public class GameScreen implements Screen {
 
     }
     public void render(float f) {
+
+        if (lives-- == 0) {
+            game.setScreen(new OverScreen(game));
+            dispose();
+            return;
+        }
+        
         if (Gdx.input.isKeyJustPressed(Input.Keys.P)) {
             game.setScreen(new PausedScreen(game,this));
         }
