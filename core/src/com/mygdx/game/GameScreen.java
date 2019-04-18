@@ -139,11 +139,7 @@ public class GameScreen implements Screen {
     public void render(float delta) {
 
         if (placeball) {
-
-            ball.setScreenPosition(
-                    (Gdx.graphics.getWidth() / 2) - (ball.sprite.getWidth() / 2),
-                    100,
-                    0);
+            ball.setScreenPosition((Gdx.graphics.getWidth() / 2) - (ball.sprite.getWidth() / 2), 100, 0);
             ball.body.setAngularVelocity(0);
             ball.body.setLinearVelocity(0, 0);
             ball.body.setAwake(false);
@@ -163,7 +159,7 @@ public class GameScreen implements Screen {
                 return;
             }
         }
-// control
+         // control
         if (Gdx.input.isTouched()) {
             mouse = true;
         }if (Gdx.input.getDeltaX() != 0) {
@@ -182,12 +178,12 @@ public class GameScreen implements Screen {
         if (!ballStarted && Gdx.input.justTouched()){
             ball.body.applyForceToCenter(
 
-                    (float) (((Math.random() * 2) - 9)),
-                    (float) (((Math.random() * 2) - 9)),
+                    (float) (((Math.random() * 2) - 1) / 10),
+                    (float) (((Math.random() * 2) - 1) / 10),
                     true);
             ball.body.applyAngularImpulse(
 
-                    (float) (((Math.random() * 2) - 900)),
+                    (float) (((Math.random() * 2) - 1) / 1000),
 
                     true);
             ballStarted = true;
@@ -228,7 +224,7 @@ public class GameScreen implements Screen {
             }
             if (ball.body.getAngularVelocity() == 0.0f) {
                 ball.body.applyAngularImpulse(
-                        (float) (((Math.random() * 2) - 1)/900),
+                        (float) (((Math.random() * 2) - 1) / 1000),
 
                         true);
             }
