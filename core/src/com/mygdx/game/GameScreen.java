@@ -48,6 +48,7 @@ public class GameScreen implements Screen {
     int screenWidth;
     int screenHeight;
     static final float WORLD_SCALE = 100f;
+    static final float BALLSPEED = 0.5f;
 
     // collision
     static final short WORLD_BOUND = 1;
@@ -177,6 +178,57 @@ public class GameScreen implements Screen {
             paddle.body.applyForceToCenter(mousex - padx, 0f, true);
         }
 
+        // click to shot the ball
+        if (!ballStarted && Gdx.input.justTouched()){
+            ball.body.applyForceToCenter(
+
+                    (float) (0.5),
+                    (float) (0.5),
+                    true);
+            ball.body.applyAngularImpulse(
+
+                    (float) (0.5),
+
+                    true);
+            ballStarted = true;
+        }// PHYSICS
+
+        world.step(delta, 6, 2);
+
+        //ensure the ball has a minimum velocity
+        if (ballStarted) {
+            Vector2 ballVel = ball.body.getLinearVelocity();
+            if (Math.abs(ballVel.x) < BALLSPEED) {
+                if (ballVel.x == 0f) {
+                    ball.body.applyForceToCenter(BALLSPEED, 0, true);
+                } else {
+                    ball.body.applyForceToCenter(
+                            BALLSPEED * Math.signum(ballVel.x), 0, true);
+                }
+            }
+            if (Math.abs(ballVel.y) < BALLSPEED) {
+                if (ballVel.y == 0f) {
+                    ball.body.applyForceToCenter(
+                            0, BALLSPEED, true);
+                } else {
+                    ball.body.applyForceToCenter(
+                            0, BALLSPEED * Math.signum(ballVel.y), true);
+                }
+            }
+            if (ball.body.getAngularVelocity() == 0.0f) {
+                ball.body.applyAngularImpulse(
+                        (float) (0.5),
+
+                        true);
+            }
+        }
+
+
+        paddle.setWorldPosition();
+        ball.setWorldPosition();
+        for (ObjectSprite brick : bricks) {
+            brick.setWorldPosition();
+        }
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);

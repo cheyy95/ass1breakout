@@ -55,6 +55,8 @@ public class ObjectSprite {
         sprite.setPosition((body.getPosition().x * scale) - sprite.getWidth() / 2, (body.getPosition().y * scale) - sprite.getHeight() / 2);
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
     }
+
+
     public void draw(SpriteBatch batch) {
         batch.draw(sprite, sprite.getX(), sprite.getY(), sprite.getOriginX(), sprite.getOriginY(), sprite.getWidth(), sprite.getHeight(), sprite.getScaleX(), sprite.getScaleY(), sprite.getRotation());
     }
