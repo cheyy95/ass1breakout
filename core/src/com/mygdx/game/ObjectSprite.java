@@ -42,6 +42,9 @@ public class ObjectSprite {
         float scale;
 
         private Defs(){
+        }
+
+        public static Defs fromScreenCoordinates(Texture tex, float x, float y, float scale) {
             Defs defs = new Defs();
             defs.tex = tex;
             defs.x = x;
@@ -59,7 +62,11 @@ public class ObjectSprite {
                     tex.getWidth() / 2 / scale,
                     tex.getHeight() / 2 / scale);
             defs.fixtureDef.shape = shape;
+            return defs;
+        }
 
+      
+        public static Defs fromWorldCoordinates(Texture tex, float x, float y, float scale) {
             Defs defs = new Defs();
             defs.tex = tex;
             defs.x = x * scale;
@@ -75,6 +82,7 @@ public class ObjectSprite {
                     tex.getWidth() / 2 / scale,
                     tex.getHeight() / 2 / scale);
             defs.fixtureDef.shape = shape;
+            return defs;
         }
 
     }
