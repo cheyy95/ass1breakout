@@ -65,7 +65,7 @@ public class ObjectSprite {
             return defs;
         }
 
-      
+
         public static Defs fromWorldCoordinates(Texture tex, float x, float y, float scale) {
             Defs defs = new Defs();
             defs.tex = tex;
