@@ -86,6 +86,8 @@ public class GameScreen implements Screen {
         world = new World(new Vector2(0, 0), true);
 
         bricks = new Array<ObjectSprite>();
+        hall = new Array<Body>();
+        remove = new Array<ObjectSprite>();
 
         world.setContactListener(new ContactListener() {
 
