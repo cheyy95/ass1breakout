@@ -224,10 +224,10 @@ public class GameScreen implements Screen {
         }
 
 
-        paddle.setWorldPosition();
-        ball.setWorldPosition();
+        paddle.update();
+        ball.update();
         for (ObjectSprite brick : bricks) {
-            brick.setWorldPosition();
+            brick.update();
         }
 
         Gdx.gl.glClearColor(0, 0, 0, 1);

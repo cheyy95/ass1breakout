@@ -52,6 +52,8 @@ public class ObjectSprite {
     }
     public void setWorldPosition(float x, float y, float angle) {
         body.setTransform(x, y, angle);
+    }
+    public void update() {
         sprite.setPosition((body.getPosition().x * scale) - sprite.getWidth() / 2, (body.getPosition().y * scale) - sprite.getHeight() / 2);
         sprite.setRotation((float) Math.toDegrees(body.getAngle()));
     }
